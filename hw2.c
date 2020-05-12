@@ -18,9 +18,9 @@ asmlinkage long sys_increment_vruntime(long delta) {
 	if(delta < 0)
 		return -EINVAL;
 	run_queue = this_rq();
-	current->sched_class->dequeue_task(run_queue, current, ENQUEUE_REPLENISH);
+	deactivate_task(run_queue, current, ENQUEUE_REPLENISH);
 	(current->se).vruntime += delta;
-	current->sched_class->enqueue_task(run_queue, current, ENQUEUE_REPLENISH);
+	activate_task(run_queue, current, ENQUEUE_REPLENISH);
 	return 0;
 }
 
